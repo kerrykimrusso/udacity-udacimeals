@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
+import Connect from './components/Connect';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
-import * as Reducers from './reducers';
+import reducer from './reducers';
+import { Provider } from 'react-redux';
 
 const store = createStore(
-    Reducers.calendarReducer,
+    reducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <Connect/>
+    </Provider>, 
+    document.getElementById('root')
+);
 registerServiceWorker();

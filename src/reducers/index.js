@@ -1,4 +1,5 @@
 import * as Actions from '../actions';
+import { combineReducers } from 'redux';
 
 const initialState = {
     sunday: {
@@ -38,9 +39,22 @@ const initialState = {
     },
 };
 
+export function foodReducer(state = {}, action) {
+    switch(action.type) {
+        case Actions.ADD_RECIPE:
+            const {recipe} = action.payload || {};
+            return {
+                ...state,
+                [recipe.label]: recipe,
+            };
+        default:
+            return state;
+    }
+}
+
 export function calendarReducer(state = initialState, action) {
-    const {type, day, recipe, meal} = action;
-    switch(type) {
+    const {day, recipe, meal} = action.payload || {};
+    switch(action.type) {
         case Actions.ADD_RECIPE:
             return {
                 ...state,
@@ -61,3 +75,8 @@ export function calendarReducer(state = initialState, action) {
             return state;
     }
 }
+
+export default combineReducers({
+    food: foodReducer,
+    calendar: calendarReducer,
+});
